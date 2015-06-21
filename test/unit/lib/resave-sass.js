@@ -1,5 +1,5 @@
-/* jshint maxstatements: false, maxlen: false */
-/* global beforeEach, describe, it */
+// jshint maxstatements: false
+// jscs:disable disallowMultipleVarDecl, maximumLineLength
 'use strict';
 
 var assert = require('proclaim');
@@ -47,7 +47,8 @@ describe('lib/resave-sass', function () {
         it('should have a `sourceMap` property', function () {
             if (process.env.NODE_ENV === 'production') {
                 assert.isFalse(defaults.sourceMap);
-            } else {
+            }
+            else {
                 assert.isTrue(defaults.sourceMap);
             }
         });
@@ -55,7 +56,8 @@ describe('lib/resave-sass', function () {
         it('should have a `sourceMapEmbed` property', function () {
             if (process.env.NODE_ENV === 'production') {
                 assert.isFalse(defaults.sourceMapEmbed);
-            } else {
+            }
+            else {
                 assert.isTrue(defaults.sourceMapEmbed);
             }
         });
@@ -63,7 +65,8 @@ describe('lib/resave-sass', function () {
         it('should have a `sourceMapContents` property', function () {
             if (process.env.NODE_ENV === 'production') {
                 assert.isFalse(defaults.sourceMapContents);
-            } else {
+            }
+            else {
                 assert.isTrue(defaults.sourceMapContents);
             }
         });
