@@ -7,6 +7,7 @@ A middleware for compiling and saving [Sass][sass] files. Use with [Connect][con
 [![NPM version][shield-npm]][info-npm]
 [![Node.js version support][shield-node]][info-node]
 [![Build status][shield-build]][info-build]
+[![Code coverage][shield-coverage]][info-coverage]
 [![Dependencies][shield-dependencies]][info-dependencies]
 [![MIT licensed][shield-license]][info-license]
 
@@ -203,11 +204,13 @@ Copyright &copy; 2015, Rowan Manning
 [resave]: https://github.com/rowanmanning/resave
 [serve-static]: https://github.com/expressjs/serve-static
 
+[info-coverage]: https://coveralls.io/github/rowanmanning/resave-sass
 [info-dependencies]: https://gemnasium.com/rowanmanning/resave-sass
 [info-license]: LICENSE
 [info-node]: package.json
 [info-npm]: https://www.npmjs.com/package/resave-sass
 [info-build]: https://travis-ci.org/rowanmanning/resave-sass
+[shield-coverage]: https://img.shields.io/coveralls/rowanmanning/resave-sass.svg
 [shield-dependencies]: https://img.shields.io/gemnasium/rowanmanning/resave-sass.svg
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
 [shield-node]: https://img.shields.io/badge/node.js%20support-0.10–4-brightgreen.svg
