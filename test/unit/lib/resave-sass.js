@@ -1,15 +1,17 @@
-// jshint maxstatements: false
-// jscs:disable disallowMultipleVarDecl, maximumLineLength
+// jscs:disable maximumLineLength
 'use strict';
 
-var assert = require('proclaim');
-var mockery = require('mockery');
-var sinon = require('sinon');
+const assert = require('proclaim');
+const mockery = require('mockery');
+const sinon = require('sinon');
 
-describe('lib/resave-sass', function () {
-    var extend, resave, resaveSass, sass;
+describe('lib/resave-sass', () => {
+    let extend;
+    let resave;
+    let resaveSass;
+    let sass;
 
-    beforeEach(function () {
+    beforeEach(() => {
 
         extend = sinon.stub();
         mockery.registerMock('node.extend', extend);
@@ -24,27 +26,27 @@ describe('lib/resave-sass', function () {
 
     });
 
-    it('should create a resave middleware', function () {
+    it('should create a resave middleware', () => {
         assert.calledOnce(resave);
         assert.isFunction(resave.firstCall.args[0]);
     });
 
-    it('should export the resave middleware', function () {
+    it('should export the resave middleware', () => {
         assert.strictEqual(resaveSass, resave.mockReturn);
     });
 
-    it('should have a `defaults` property', function () {
+    it('should have a `defaults` property', () => {
         assert.isObject(resaveSass.defaults);
     });
 
-    describe('.defaults', function () {
-        var defaults;
+    describe('.defaults', () => {
+        let defaults;
 
-        beforeEach(function () {
+        beforeEach(() => {
             defaults = resaveSass.defaults;
         });
 
-        it('should have a `sourceMap` property', function () {
+        it('should have a `sourceMap` property', () => {
             if (process.env.NODE_ENV === 'production') {
                 assert.isFalse(defaults.sourceMap);
             }
@@ -53,7 +55,7 @@ describe('lib/resave-sass', function () {
             }
         });
 
-        it('should have a `sourceMapEmbed` property', function () {
+        it('should have a `sourceMapEmbed` property', () => {
             if (process.env.NODE_ENV === 'production') {
                 assert.isFalse(defaults.sourceMapEmbed);
             }
@@ -62,7 +64,7 @@ describe('lib/resave-sass', function () {
             }
         });
 
-        it('should have a `sourceMapContents` property', function () {
+        it('should have a `sourceMapContents` property', () => {
             if (process.env.NODE_ENV === 'production') {
                 assert.isFalse(defaults.sourceMapContents);
             }
@@ -73,10 +75,15 @@ describe('lib/resave-sass', function () {
 
     });
 
-    describe('resave `creatBundle` function', function () {
-        var bundlePath, creatBundle, done, options, sassOptions, sassResult;
+    describe('resave `creatBundle` function', () => {
+        let bundlePath;
+        let creatBundle;
+        let done;
+        let options;
+        let sassOptions;
+        let sassResult;
 
-        beforeEach(function () {
+        beforeEach(() => {
             bundlePath = 'foo';
             options = {
                 sass: {
@@ -96,7 +103,7 @@ describe('lib/resave-sass', function () {
             creatBundle(bundlePath, options, done);
         });
 
-        it('should default the sass options', function () {
+        it('should default the sass options', () => {
             assert.calledOnce(extend);
             assert.isTrue(extend.firstCall.args[0]);
             assert.isObject(extend.firstCall.args[1]);
@@ -104,7 +111,7 @@ describe('lib/resave-sass', function () {
             assert.strictEqual(extend.firstCall.args[3], options.sass);
         });
 
-        it('should create a sass bundle with the expected options', function () {
+        it('should create a sass bundle with the expected options', () => {
             assert.calledOnce(sass.render);
             assert.deepEqual(sass.render.firstCall.args[0], {
                 file: bundlePath,
@@ -113,13 +120,13 @@ describe('lib/resave-sass', function () {
             });
         });
 
-        it('should callback with the generated CSS', function () {
+        it('should callback with the generated CSS', () => {
             assert.calledOnce(done);
             assert.calledWith(done, null, sassResult.css);
         });
 
-        it('should callback with an error if compilation is unsuccessful', function () {
-            var error = new Error('...');
+        it('should callback with an error if compilation is unsuccessful', () => {
+            const error = new Error('...');
             done.reset();
             sass.render.yields(error);
             creatBundle(bundlePath, options, done);

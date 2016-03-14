@@ -1,7 +1,7 @@
 'use strict';
 
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var resave = module.exports = sinon.stub();
+const resave = module.exports = sinon.stub();
 resave.mockReturn = sinon.stub();
 resave.returns(resave.mockReturn);

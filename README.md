@@ -12,11 +12,11 @@ A middleware for compiling and saving [Sass][sass] files. Use with [Connect][con
 [![MIT licensed][shield-license]][info-license]
 
 ```js
-var connect = require('connect');
-var resaveSass = require('resave-sass');
-var serveStatic = require('serve-static');
+const connect = require('connect');
+const resaveSass = require('resave-sass');
+const serveStatic = require('serve-static');
 
-var app = connect();
+const app = connect();
 
 app.use(serveStatic('./public'));
 app.use(resaveSass({
@@ -57,15 +57,15 @@ Getting Started
 Require in Resave Sass:
 
 ```js
-var resaveSass = require('resave-sass');
+const resaveSass = require('resave-sass');
 ```
 
 Use the created middleware in your application:
 
 ```js
-var connect = require('connect');
+const connect = require('connect');
 
-var app = connect();
+const app = connect();
 
 app.use(resaveSass({
     bundles: {
@@ -79,10 +79,10 @@ In the example above, requests to `/main.css` will load the file `./source/main.
 This isn't great in production environments as it can be quite slow. In these cases you can save the output to a file which will get served by another middleware:
 
 ```js
-var connect = require('connect');
-var serveStatic = require('serve-static');
+const connect = require('connect');
+const serveStatic = require('serve-static');
 
-var app = connect();
+const app = connect();
 
 app.use(serveStatic('./public'));
 
