@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "node-sass": "^3",
-    "node.extend": "~1.1",
+    "node.extend": "~2.0",
     "resave": "^1"
   },
   "devDependencies": {
