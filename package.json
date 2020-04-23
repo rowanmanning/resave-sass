@@ -19,7 +19,7 @@
     "node": ">=4"
   },
   "dependencies": {
-    "node-sass": "^3",
+    "node-sass": "^4",
     "node.extend": "~1.1",
     "resave": "^1"
   },
