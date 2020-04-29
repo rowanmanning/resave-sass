@@ -21,7 +21,7 @@
   "dependencies": {
     "node-sass": "^3",
     "node.extend": "~1.1",
-    "resave": "^1"
+    "resave": "^3"
   },
   "devDependencies": {
     "connect": "^3",
