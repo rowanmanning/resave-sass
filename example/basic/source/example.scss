@@ -1,6 +1,6 @@
 
-@import "imported";
+@use "imported";
 
 body {
-    color: #f00;
+	color: #f00;
 }

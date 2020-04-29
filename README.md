@@ -1,24 +1,15 @@
 
-Resave Sass
-===========
+# Resave Sass
 
-A middleware for compiling and saving [Sass][sass] files. Use with [Connect][connect] or [Express][express] and [static middleware][serve-static]. Built with [Resave][resave].
-
-[![NPM version][shield-npm]][info-npm]
-[![Node.js version support][shield-node]][info-node]
-[![Build status][shield-build]][info-build]
-[![Code coverage][shield-coverage]][info-coverage]
-[![Dependencies][shield-dependencies]][info-dependencies]
-[![MIT licensed][shield-license]][info-license]
+A middleware for compiling and saving [Sass](https://sass-lang.com/) files. Use [Express](https://expressjs.com/). Built with [Resave](https://github.com/rowanmanning/resave).
 
 ```js
-const connect = require('connect');
+const express = require('express');
 const resaveSass = require('resave-sass');
-const serveStatic = require('serve-static');
 
-const app = connect();
+const app = express();
 
-app.use(serveStatic('./public'));
+app.use(express.static('./public'));
 app.use(resaveSass({
     bundles: {
         '/main.css': './source/main.scss'
@@ -29,32 +20,34 @@ app.use(resaveSass({
 app.listen(3000);
 ```
 
+## Table of Contents
 
-Table Of Contents
------------------
-
-- [Install](#install)
-- [Getting Started](#getting-started)
-- [Options](#options)
-- [Examples](#examples)
-- [Contributing](#contributing)
-- [License](#license)
+  * [Requirements](#requirements)
+  * [Usage](#usage)
+    * [Getting started](#getting-started)
+    * [Options](#options)
+  * [Contributing](#contributing)
+  * [License](#license)
 
 
-Install
--------
+## Requirements
 
-Install Resave Sass with [npm][npm]:
+This library requires the following to run:
+
+  * [Node.js](https://nodejs.org/) 12+
+
+
+## Usage
+
+Install with [npm](https://www.npmjs.com/):
 
 ```sh
-npm install resave-sass
+npm install resave
 ```
 
+### Getting started
 
-Getting Started
----------------
-
-Require in Resave Sass:
+Load the library into your code with a `require` call:
 
 ```js
 const resaveSass = require('resave-sass');
@@ -63,9 +56,9 @@ const resaveSass = require('resave-sass');
 Use the created middleware in your application:
 
 ```js
-const connect = require('connect');
+const express = require('express');
 
-const app = connect();
+const app = express();
 
 app.use(resaveSass({
     bundles: {
@@ -79,12 +72,12 @@ In the example above, requests to `/main.css` will load the file `./source/main.
 This isn't great in production environments as it can be quite slow. In these cases you can save the output to a file which will get served by another middleware:
 
 ```js
-const connect = require('connect');
+const express = require('express');
 const serveStatic = require('serve-static');
 
-const app = connect();
+const app = express();
 
-app.use(serveStatic('./public'));
+app.use(express.static('./public'));
 
 app.use(resaveSass({
     bundles: {
@@ -94,43 +87,19 @@ app.use(resaveSass({
 }));
 ```
 
-In the example above the first time `/main.css` is requested it will get compiled and saved into `public/main.css`. On the next request, the `serve-static` middleware will find the created file and serve it up with proper caching etc.
+In the example above the first time `/main.css` is requested it will get compiled and saved into `public/main.css`. On the next request, the `express.static` middleware will find the created file and serve it up with your configured caching etc.
 
-
-Options
--------
+### Options
 
 #### `basePath` (string)
 
-The directory to look for bundle files in. Defaults to `process.cwd()`.
-
-#### `sass` (object)
-
-A configuration object which will get passed into Sass. See the [Sass options documentation][sass-opts] for more information.
-
-If `NODE_ENV` is `'production'`, it defaults to:
-
-```js
-{
-    sourceMap: false,
-    sourceMapEmbed: false,
-    sourceMapContents: false
-}
-```
-
-If `NODE_ENV` is *not* `'production'`, it defaults to:
-
-```js
-{
-    sourceMap: true,
-    sourceMapEmbed: true,
-    sourceMapContents: true
-}
-```
+The directory to look for sass files in. Defaults to `process.cwd()`.
 
 #### `bundles` (object)
 
-A map of bundle URLs and source paths. The source paths are relative to the `basePath` option. In the following example requests to `/foo.css` will load, compile and serve `source/foo.scss`:
+A map of bundle URLs and source paths, where each key is the URL path that the bundle is served on, and each value is the location of the entry point Sass source file for that bundle. The source paths are relative to the `basePath` option.
+
+In the following example requests to `/foo.css` will load, compile and serve `source/foo.scss`:
 
 ```js
 app.use(resaveSass({
@@ -140,6 +109,16 @@ app.use(resaveSass({
     }
 }));
 ```
+
+#### `cssOutputStyle` (string)
+
+The style of CSS to output. One of "expanded", "compressed".
+
+#### `enableSourceMaps` (boolean)
+
+Whether to output source maps for the compiled CSS files. If the `savePath` option is
+specified, then the source map will be saved alongside the CSS appended with `.map`; if
+`savePath` is not specified, then source maps will be inlined. Defaults to `true`.
 
 #### `log` (object)
 
@@ -151,9 +130,15 @@ app.use(resaveSass({
 }));
 ```
 
+#### `sassIncludePaths` (array of strings)
+
+An array of paths that Sass can look in to attempt to resolve your `@import` and `@use` declarations. You can always import using URLs relative to the current Sass file. Defaults to an empty array.
+
 #### `savePath` (string)
 
-The directory to save bundled files to. This is optional, but is recommended in production environments. This should point to a directory which is also served by your application. Defaults to `null`.
+The directory to save compiled CSS files to. This is optional, but is recommended in
+production environments. This should point to a directory which is also served by your
+application. Defaults to `null`.
 
 Example of saving bundles only in production:
 
@@ -164,8 +149,7 @@ app.use(resaveSass({
 ```
 
 
-Examples
---------
+## Examples
 
 ### Basic Example
 
@@ -176,43 +160,17 @@ node example/basic
 ```
 
 
-Contributing
-------------
+## Contributing
 
-To contribute to Resave Sass, clone this repo locally and commit your code on a separate branch.
-
-Please write unit tests for your code, and check that everything works by running the following before opening a pull-request:
+To contribute to this library, clone this repo locally and commit your code on a separate branch. Please write unit tests for your code, and run the linter before opening a pull-request:
 
 ```sh
-make lint test
+make test    # run all tests
+make verify  # run all linters
 ```
 
 
-License
--------
+## License
 
-Resave Sass is licensed under the [MIT][info-license] license.  
-Copyright &copy; 2015, Rowan Manning
-
-
-
-[sass]: https://github.com/sass/node-sass
-[sass-opts]: https://github.com/sass/node-sass#options
-[connect]: https://github.com/senchalabs/connect
-[express]: http://expressjs.com/
-[npm]: https://npmjs.org/
-[resave]: https://github.com/rowanmanning/resave
-[serve-static]: https://github.com/expressjs/serve-static
-
-[info-coverage]: https://coveralls.io/github/rowanmanning/resave-sass
-[info-dependencies]: https://gemnasium.com/rowanmanning/resave-sass
-[info-license]: LICENSE
-[info-node]: package.json
-[info-npm]: https://www.npmjs.com/package/resave-sass
-[info-build]: https://travis-ci.org/rowanmanning/resave-sass
-[shield-coverage]: https://img.shields.io/coveralls/rowanmanning/resave-sass.svg
-[shield-dependencies]: https://img.shields.io/gemnasium/rowanmanning/resave-sass.svg
-[shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
-[shield-node]: https://img.shields.io/badge/node.js%20support-4–7-brightgreen.svg
-[shield-npm]: https://img.shields.io/npm/v/resave-sass.svg
-[shield-build]: https://img.shields.io/travis/rowanmanning/resave-sass/master.svg
+Licensed under the [MIT](LICENSE) license.<br/>
+Copyright &copy; 2020, Rowan Manning
